@@ -15,9 +15,13 @@ class DoubanBookItem(scrapy.Item):
     link = scrapy.Field()  #链接
     author = scrapy.Field()  #作者
     score = scrapy.Field()  #评分
+    scoreNum = scrapy.Field() #评论人数 
     press = scrapy.Field()  #出版社
     isbn = scrapy.Field()  #isbn
     price = scrapy.Field()  #价格
-    pubtime = scrapy.Field()  #出版年
+    publishyear = scrapy.Field()  #出版年
     authordesc = scrapy.Field()  #作者简介
     bookdesc = scrapy.Field()  #书简介
+    label = scrapy.Field() #标签
+    pagecount = scrapy.Field() #字数
+    imgUrl = scrapy.Field() #图片链接
