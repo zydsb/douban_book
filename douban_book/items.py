@@ -24,4 +24,4 @@ class DoubanBookItem(scrapy.Item):
     bookdesc = scrapy.Field()  #书简介
     label = scrapy.Field() #标签
     pagecount = scrapy.Field() #字数
-    imgUrl = scrapy.Field() #图片链接
+    imgurl = scrapy.Field() #图片链接
