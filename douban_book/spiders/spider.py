@@ -7,16 +7,17 @@ from douban_book.items import DoubanBookItem
 class doubanSpider(scrapy.Spider):
     name = "douban_book"
     allowed_domains = ["douban.com"] #搜索的域名范围，也就是爬虫的约束区域
-    start_urls = ['https://book.douban.com/subject/6082808/']
+    start_urls = ['https://book.douban.com/subject/1012611/']
 
-    def parse(self, response):
+    def parse(self,response):
         
         book = DoubanBookItem()
         if response.status==200:
             try:
+
                 title = response.xpath("//div[@id='wrapper']/h1/span/text()").extract()  
                 link = response.url
-                imgUrl = response.xpath("//div[@id='mainpic']/a[@class='nbg']/@href").extract_first()
+                imgurl = response.xpath("//div[@id='mainpic']/a[@class='nbg']/@href").extract_first()
                 author = response.xpath("//div[@id='info']/a[1]/text()").extract()
                 score = response.xpath("//div[@id='interest_sectl']/div/div[2]/strong/text()").extract()
                 score_num = response.xpath("//div[@id='interest_sectl']/div/div[2]/div/div[2]/span/a/span/text()").extract()
@@ -24,6 +25,8 @@ class doubanSpider(scrapy.Spider):
                 bookdesc = response.xpath("//*[@id='link-report']/div[1]/div/p/text()").extract()
                 authordesc = response.xpath("//*[@id='content']/div/div[1]/div[3]/div[2]/div/div/p/text()").extract()
                 infos = response.xpath("//div[@id='info']")
+
+                
                 for info in infos.xpath("./*|./text()"):
                     name = info.xpath("text()").extract_first()
                     if name is not None:
@@ -62,6 +65,7 @@ class doubanSpider(scrapy.Spider):
                         elif curType == "isbn":
                             book['isbn'] = span
 
+                
                 book['title'] = title
                 book['link'] = link
                 book['imgurl'] = imgurl
@@ -70,8 +74,7 @@ class doubanSpider(scrapy.Spider):
                 book['label'] = label 
                 book['authordesc'] = authordesc
                 book['bookdesc'] =  bookdesc
-         
-                print(book)
+                
                 yield book
                 
                 
@@ -79,6 +82,7 @@ class doubanSpider(scrapy.Spider):
                  
                 for url in continueurls:
                     yield scrapy.Request(url)
+                
                 
             except:
                 print('-'*30 + 'error' + '-'*30)
