@@ -41,12 +41,16 @@ class DoubanBookPipeline(object):
             author = rep.sub('',author_tmp[0])
         else:
             author = 'zhangyang'
+        if price:
+            pass
+        else:
+            price = 0 
 
         
 
-        sql = "replace into book_info (title,author,press,isbn,price,publishyear,label,pagecount) values (%s,%s,%s,%s,%s,%s,%s,%s)"
-        print(sql,(title,author,score,scorenum,press,isbn,price,publishyear,label,pagecount))
-        self.cursor.execute(sql,(title,author,press,isbn,price,publishyear,label,pagecount))
+        sql = "replace into book_info (title,author,score,press,isbn,price,publishyear,label,pagecount) values (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        print(sql,(title,author,score,press,isbn,price,publishyear,label,pagecount))
+        self.cursor.execute(sql,(title,author,score,press,isbn,price,publishyear,label,pagecount))
         self.conn.commit()
 
 

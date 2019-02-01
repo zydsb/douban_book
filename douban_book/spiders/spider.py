@@ -1,5 +1,6 @@
 import scrapy
 import re
+import requests
 from scrapy.spiders import CrawlSpider,Rule
 from scrapy.linkextractors import LinkExtractor
 from douban_book.items import DoubanBookItem
@@ -7,7 +8,16 @@ from douban_book.items import DoubanBookItem
 class doubanSpider(scrapy.Spider):
     name = "douban_book"
     allowed_domains = ["douban.com"] #搜索的域名范围，也就是爬虫的约束区域
-    start_urls = ['https://book.douban.com/subject/1012611/']
+    start_urls = ['https://book.douban.com/subject/25794620/']
+
+
+    
+    def get_proxy():
+        return requests.get("http://127.0.0.1:5010/get/").text 
+
+    def delete_proxy(proxy):
+        requests.get("http://127.0.0.1:5010/delete/?proxy={}".format(proxy))
+ 
 
     def parse(self,response):
         
@@ -79,11 +89,12 @@ class doubanSpider(scrapy.Spider):
                 
                 
                 continueurls = response.xpath("//div[@id='db-rec-section']/div[@class='content clearfix']/dl/dt/a/@href").extract()
+
                  
                 for url in continueurls:
                     yield scrapy.Request(url)
                 
-                
+
             except:
                 print('-'*30 + 'error' + '-'*30)
         else:

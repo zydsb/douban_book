@@ -6,6 +6,7 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+import requests
 
 
 class DoubanBookSpiderMiddleware(object):
@@ -78,7 +79,10 @@ class DoubanBookDownloaderMiddleware(object):
         # - or return a Request object
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
+
         return None
+
+
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
@@ -101,3 +105,18 @@ class DoubanBookDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+
+
+
+# 配置代理池
+
+class ProxyMiddleware(object):
+    def process_request(self, request, spider):       
+        proxy = "http://{}".format(requests.get("http://127.0.0.1:5010/get/").text)
+        request.meta['proxy'] = proxy
+     
+
+
+
