@@ -10,3 +10,7 @@ todolist:
 
 * 加入 redis 做缓存
 * 数据清洗做得很好一点
+
+20191107 
+
+blue blue
